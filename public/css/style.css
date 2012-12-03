@@ -1,0 +1,72 @@
+.container {
+    width: auto;
+    max-width: 880px;
+}
+
+a {
+    color: white;
+}
+
+a:hover {
+    color: white;
+    text-decoration: underline;
+}
+
+ul {
+    margin: 0px;
+}
+
+li {
+    list-style: none;
+}
+
+.logo {
+    font-family: 'Sansita One', cursive;
+    color: white;
+    font-size: 40px;
+    text-align: right;
+    text-shadow: black 0px 0px 22px;
+}
+
+.box {
+    background: rgba(0, 0, 0, 0.25);
+}
+
+.menu-title {
+    font-family: 'Sansita One', cursive;
+    color: white;
+    background: black;
+    color: white;
+    padding: 3px 30px 3px 30px;
+    margin-bottom: 10px;
+    display: inline;
+    line-height: 50px;
+    font-size: 24px;
+    cursor: pointer;
+}
+
+.menu-box {
+    line-height: 24px;
+    background: rgba(0, 0, 0, 0.25);
+    padding: 10px 0px 10px 20px;
+    color: white;
+    font-size: 18px;
+    max-width: 200px;
+}
+
+#product-box {
+    color:white; 
+    padding: 10px;
+}
+.order-link {
+    margin: 10px 0px 10px 10px;
+}
+@media max-width: 480px {
+    .logo {
+        font-size: 32px;
+        margin-top: 20px;
+    }
+    #product-box {
+        margin-top: 10px;
+    }
+}
