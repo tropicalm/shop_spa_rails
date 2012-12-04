@@ -28,6 +28,9 @@ WebGlue = (function() {
     After(this.gui, 'productClicked', function(product_id) {
       return _this.gui.showProduct(_this.useCase.getProduct(product_id));
     });
+    After(this.gui, 'searchClicked', function(name) {
+      return _this.gui.showProducts(_this.useCase.findProducts(name));
+    });
     After(this.gui, 'addToCartClicked', function(product_id) {
       return _this.useCase.addProductToCart(product_id);
     });

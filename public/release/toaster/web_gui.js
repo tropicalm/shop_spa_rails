@@ -20,6 +20,11 @@ WebGui = (function() {
         id = $(e.currentTarget).data('id');
         return _this.categoryClicked(id);
       });
+      $("#search-box").on("click", "a.search-link", function(e) {
+        var name;
+        name = $('#search-name').val();
+        return _this.searchClicked(name);
+      });
       $("#product-box").on("click", "a.product-link", function(e) {
         var id;
         id = $(e.currentTarget).data('id');
@@ -101,6 +106,8 @@ WebGui = (function() {
   WebGui.prototype.removeFromCartClicked = function(product_id) {};
 
   WebGui.prototype.orderClicked = function(buyer) {};
+
+  WebGui.prototype.searchClicked = function(buyer) {};
 
   WebGui.prototype.parseTemplate = function(source_element, html_element, context) {
     var html, source, template;

@@ -80,6 +80,14 @@ ShopUseCase = (function() {
     }
   };
 
+  ShopUseCase.prototype.findProducts = function(name) {
+    var pattern, prod;
+    pattern = new RegExp(name, 'i');
+    return prod = this.products.filter(function(product) {
+      return product.name.match(pattern);
+    });
+  };
+
   ShopUseCase.prototype.getCart = function() {
     return {
       products: this.cart,
