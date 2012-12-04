@@ -22,10 +22,15 @@ end
 
 group :test, :development do
   gem "rspec-rails"
+  gem 'factory_girl_rails'
   gem 'faker'
+  gem 'guard'
+  gem 'guard-rspec'
+  gem 'rb-fsevent', '~> 0.9.1'
 end
 
 gem 'jquery-rails'
+gem 'devise'
 
 # To use ActiveModel has_secure_password
 # gem 'bcrypt-ruby', '~> 3.0.0'
