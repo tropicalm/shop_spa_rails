@@ -2,13 +2,176 @@
 <html>
 <head>
   <title>Shop</title>
-  <%= stylesheet_link_tag    "application", :media => "all" %>
-  <%= javascript_include_tag "application" %>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta content="text/html; charset=UTF-8" http-equiv="Content-Type">
+    <link rel="stylesheet" href="components/bootstrap.css/css/bootstrap.css">
+    <link rel="stylesheet" href="components/bootstrap.css/css/bootstrap-responsive.css">
+    <link rel="stylesheet" href="components/font-awesome/css/font-awesome.css">
+    <link rel="stylesheet" href="lib/jquery.vegas/jquery.vegas.css">
+    <link rel="stylesheet" href='http://fonts.googleapis.com/css?family=Sansita+One' type='text/css'>
+    <link rel="stylesheet" href="css/style.css">
+
+    <script src="components/jquery/jquery.js"></script>
+    <script src="components/bootstrap.css/js/bootstrap.min.js"></script>
+    <script src="components/handlebars/handlebars-1.0.0-rc.1.js"></script>
+    <script src="components/underscore/underscore.js"></script>
+    <script src="lib/YouAreDaBomb.js" type="text/javascript"></script>
+    <script src="lib/jquery.vegas/jquery.vegas.js"></script>
+    <script src="release/app-debug.js" type="text/javascript"></script>
   <%= csrf_meta_tags %>
 </head>
-<body>
+  <body>
+    <div class="container-narrow">
+      <div class="hidden-phone" style="margin-top: 70px"></div>
 
-<%= yield %>
+      <div class="container">
+        <h1 class="logo">
+          SweetsMaker <i class="icon-shopping-cart icon-large"></i>
+        </h1>
+      </div>
 
-</body>
+      <div class="hidden-phone" style="margin-top: 30px"></div>
+
+      <div class="container">
+        <div class="row-fluid">
+          <div class="span3">
+            <ul>
+              <li>
+                <div class="menu-title" id="category-title">CATEGORIES</div>
+                <div class="menu-box" id="category-box" style="display:none;">
+                </div>
+              </li>
+              <li>
+                <div class="menu-title">SEARCH</div>
+                <div class="menu-box" id="search-box" style="display:none;">
+                    NAME<br>PRICE
+                </div>
+              </li>
+              <li>
+                <div class="menu-title">CART</div>
+                <div class="menu-box" id="cart-box" style="display:none;">
+                  Cart is empty
+                </div>
+              </li>
+            </ul>
+          </div>
+
+          <div class="span8 offset1">
+            <div class="menu-title">PRODUCTS</div>
+            <div id="product-box" class="box"></div>         
+          </div>
+        </div>
+      </div>
+    </div>
+
+<!-- Modals -->
+<div id="order-modal" class="modal hide fade" tabindex="-1" role="dialog" aria-labelledby="order-modal-label" aria-hidden="true"></div>
+
+<div id="product-modal" class="modal hide fade" tabindex="-1" role="dialog" aria-labelledby="product-modal-label" aria-hidden="true"></div>
+
+<!-- Handlebar templates -->
+<script id="product-template" type="text/x-handlebars-template">
+  <div class="modal-header">
+    <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+    <h3 id="product-modal-label">{{name}}</h3>
+  </div>
+  <div class="modal-body">
+    <p>{{description}}</p>
+    <h3>{{price}} zł</h3>
+  </div>
+  <div class="modal-footer">
+    <button class="btn" data-dismiss="modal" aria-hidden="true">Close</button>
+    <button class="btn btn-primary add-to-cart" data-product-id="{{id}}">Add to cart</button>
+  </div>
+</script>
+
+<script id="products-list-template" type="text/x-handlebars-template">
+  {{#each products}}
+    <p><a href="#" class="product-link" data-id="{{id}}">
+      {{name}} - {{price}} zł
+    </a></p>
+  {{/each}}
+  {{#unless products}}
+    <p>There is no product</p>
+  {{/unless}}
+</script>
+
+<script id="cart-template" type="text/x-handlebars-template">
+  {{#each products}}
+    <a href="#" class="product-link" data-id="{{id}}">
+      <i class="icon-remove"></i>
+    </a>{{name}}<br>
+  {{/each}}
+  {{#if products}}
+    Total: {{sum}} zł
+    <a href="#" class="btn btn-inverse order-link" data-product-id="1">
+      Order
+    </a>
+  {{/if}}
+  {{#unless products}}
+    Cart is empty
+  {{/unless}}
+</script>
+
+<script id="category-template" type="text/x-handlebars-template">
+  {{#each categories}}
+    <a href="#" class="category-link" data-id="{{id}}">{{name}}</a> /
+  {{/each}}
+</script>
+
+<script id="order-template" type="text/x-handlebars-template">
+  <form class="form-horizontal order-form">
+  <div class="modal-header">
+    <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+    <h3 id="order-modal-label">Order confirmation</h3>
+  </div>
+  <div class="modal-body">
+      <div class="control-group">
+        <label class="control-label" for="first-name">
+          First name
+        </label>
+        <div class="controls">
+          <input type="text" id="first-name">
+        </div>
+      </div>
+      <div class="control-group">
+        <label class="control-label" for="last-name">
+          Last name
+        </label>
+        <div class="controls">
+          <input type="text" id="last-name">
+        </div>
+      </div>
+      <div class="control-group">
+        <label class="control-label" for="address">
+          Address
+        </label>
+        <div class="controls">
+          <input type="text" id="address">
+        </div>
+      </div>
+  </div>
+  <div class="modal-footer">
+    <button class="btn" data-dismiss="modal" aria-hidden="true">Close</button>
+    <button type="submit" class="btn btn-primary order-confirm-link">Order</button>
+  </div>
+  </form>
+</script>
+
+<script id="order-confirmation-template" type="text/x-handlebars-template">
+  <form class="form-horizontal order-form">
+  <div class="modal-header">
+    <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+    <h3 id="order-modal-label">Thanks for order</h3>
+  </div>
+  <div class="modal-body">
+    Your order has been confirmed.
+  </div>
+  <div class="modal-footer">
+    <button class="btn" data-dismiss="modal" aria-hidden="true">Close</button>
+  </div>
+  </form>
+</script>
+  </body>
+
 </html>

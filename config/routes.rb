@@ -1,4 +1,13 @@
 Shop::Application.routes.draw do
+
+  root :to => 'shop#index'
+
+  namespace :api do
+    root :to => 'shop#index'
+    match "add_product_to_cart" => "shop#add_product_to_cart", :via => :post
+    match "remove_product_from_cart" => "shop#remove_product_from_cart", :via => :post
+    match "place_order" => "shop#place_order", :via => :post
+  end
   # The priority is based upon order of creation:
   # first created -> highest priority.
 
